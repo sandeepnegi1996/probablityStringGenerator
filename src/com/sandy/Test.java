@@ -74,14 +74,12 @@ class ProbablityGeneratorImpl implements ProbabilityGenerator {
 		}
 
 	}
-
-}
-
-public class Test {
-
+	
 	// output file name
 
 	public static String outputFile = "C:\\END1COB\\ECLIPSE_PHOTON\\PHOTON_WORKSPACE\\AmitSolution\\src\\com\\sandy\\outputprobab.txt";
+	
+	
 
 	// function for writing the string in the file
 
@@ -90,6 +88,7 @@ public class Test {
 		FileWriter fw = null;
 		try {
 			fw = new FileWriter(outputFile, true);
+			
 			fw.write(str);
 			fw.write("\n");
 
@@ -100,15 +99,28 @@ public class Test {
 		try {
 			fw.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 
 	}
+	
+	
+	
+
+
+}
+
+public class Test {
+
+	// output file name
+
+	public static String outputFile = "C:\\END1COB\\ECLIPSE_PHOTON\\PHOTON_WORKSPACE\\AmitSolution\\src\\com\\sandy\\outputprobab.txt";
+	
 
 	public static void main(String[] args) throws IOException {
 
-		ProbabilityGenerator gen = new ProbablityGeneratorImpl("probablities.txt");
+		ProbablityGeneratorImpl gen = new ProbablityGeneratorImpl("probablities.txt");
 
 		ProbablityGeneratorImpl.k = 100;
 
@@ -122,7 +134,7 @@ public class Test {
 
 			} else {
 
-				writeToOutputFile(nextStr);
+				ProbablityGeneratorImpl.writeToOutputFile(nextStr);
 			}
 		}
 	}
