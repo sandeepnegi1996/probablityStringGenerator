@@ -18,28 +18,16 @@ class ProbablityGeneratorImpl implements ProbabilityGenerator {
 
 	public static List<String> probablityString = new ArrayList<String>();
 
+	public static List<String> list = Collections.emptyList();
+
 	ProbablityGeneratorImpl(String filename) {
 		this.filename = filename;
 
 	}
 
-	//Function for reading file and Storing it in list
-	
-	
-	
-	
-	
+	// Function for reading file and Storing it in list
 
-	//Function for writing the output string in the file
-	
-	
-	
-	
-	public String getNextString() {
-
-		// Read a String and store it in a list of Strings
-
-		List<String> list = Collections.emptyList();
+	public void readFile() {
 
 		try {
 			list = Files.readAllLines(Paths
@@ -49,7 +37,13 @@ class ProbablityGeneratorImpl implements ProbabilityGenerator {
 			e.printStackTrace();
 		}
 
-	
+	}
+
+	public String getNextString() {
+
+		// below function will read the file and store the result in the list
+		readFile();
+
 		List<Double> listofProbab = new ArrayList<Double>();
 		for (String x : list) {
 			String arr[] = x.split(",");
@@ -57,7 +51,6 @@ class ProbablityGeneratorImpl implements ProbabilityGenerator {
 			probablityString.add(arr[0]);
 			listofProbab.add(Double.valueOf(arr[1]));
 		}
-
 
 		for (int i = 0; i < listofProbab.size(); i++) {
 
@@ -81,9 +74,37 @@ class ProbablityGeneratorImpl implements ProbabilityGenerator {
 		}
 
 	}
+
 }
 
 public class Test {
+
+	// output file name
+
+	public static String outputFile = "C:\\END1COB\\ECLIPSE_PHOTON\\PHOTON_WORKSPACE\\AmitSolution\\src\\com\\sandy\\outputprobab.txt";
+
+	// function for writing the string in the file
+
+	public static void writeToOutputFile(String str) {
+
+		FileWriter fw = null;
+		try {
+			fw = new FileWriter(outputFile, true);
+			fw.write(str);
+			fw.write("\n");
+
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			fw.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
 
 	public static void main(String[] args) throws IOException {
 
@@ -91,34 +112,19 @@ public class Test {
 
 		ProbablityGeneratorImpl.k = 100;
 
-		// Output file name
-		String outputFile = "C:\\END1COB\\ECLIPSE_PHOTON\\PHOTON_WORKSPACE\\AmitSolution\\src\\com\\sandy\\outputprobab.txt";
+		String nextStr = null;
 
-		List<String> batchList=new ArrayList<String>();
-		String nextStr=null;
-		
-		FileWriter fw = null;
-		try {
-			fw = new FileWriter(outputFile, true);
+		for (int i = 0; i < 100; i++) {
+			nextStr = gen.getNextString();
 
-			for (int i = 0; i < 100; i++) {
-				 nextStr = gen.getNextString();
+			if (nextStr == "") {
+				i--;
 
-				if (nextStr == "") {
-					i--;
+			} else {
 
-				} else {
-					fw.write(nextStr);
-					fw.write("\n");
-				}
-
+				writeToOutputFile(nextStr);
 			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
-		fw.close();
-
 	}
 
 }
