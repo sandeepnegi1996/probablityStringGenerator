@@ -19,6 +19,8 @@ class ProbablityGeneratorImpl implements ProbabilityGenerator {
 	public static List<String> probablityString = new ArrayList<String>();
 
 	public static List<String> list = Collections.emptyList();
+	
+	public static List<String> batchArray=new ArrayList<String>();
 
 	ProbablityGeneratorImpl(String filename) {
 		this.filename = filename;
@@ -82,6 +84,8 @@ class ProbablityGeneratorImpl implements ProbabilityGenerator {
 	
 
 	// function for writing the string in the file
+	
+	//Batching is done using static batchArray
 
 	public static void writeToOutputFile(String str) {
 
@@ -89,8 +93,20 @@ class ProbablityGeneratorImpl implements ProbabilityGenerator {
 		try {
 			fw = new FileWriter(outputFile, true);
 			
-			fw.write(str);
-			fw.write("\n");
+			batchArray.add(str);
+			batchArray.add("\n");
+			
+			if(batchArray.size()==50) {
+				
+				for(String batchedString:batchArray) {
+					
+					fw.write(batchedString);
+				}
+				
+				batchArray.clear();
+				
+			}
+			
 
 		}
 		catch (IOException e) {
@@ -105,9 +121,6 @@ class ProbablityGeneratorImpl implements ProbabilityGenerator {
 
 	}
 	
-	
-	
-
 
 }
 
