@@ -21,6 +21,13 @@ class ProbablityGeneratorImpl implements ProbabilityGenerator {
 	public static List<String> list = Collections.emptyList();
 	
 	public static List<String> batchArray=new ArrayList<String>();
+	
+	// output file name
+	
+	public static String fileLocation=System.getProperty("user.dir");
+	public static String outputfile=fileLocation+"\\src\\com\\sandy\\outputprobab.txt";
+
+	
 
 	ProbablityGeneratorImpl(String filename) {
 		this.filename = filename;
@@ -33,7 +40,7 @@ class ProbablityGeneratorImpl implements ProbabilityGenerator {
 
 		try {
 			list = Files.readAllLines(Paths
-					.get("C:\\END1COB\\ECLIPSE_PHOTON\\PHOTON_WORKSPACE\\AmitSolution\\src\\com\\sandy\\" + filename));
+					.get(fileLocation+"\\src\\com\\sandy\\" + filename));
 		} catch (IOException e) {
 
 			e.printStackTrace();
@@ -77,10 +84,7 @@ class ProbablityGeneratorImpl implements ProbabilityGenerator {
 
 	}
 	
-	// output file name
 
-	public static String outputFile = "C:\\END1COB\\ECLIPSE_PHOTON\\PHOTON_WORKSPACE\\AmitSolution\\src\\com\\sandy\\outputprobab.txt";
-	
 	
 
 	// function for writing the string in the file
@@ -91,7 +95,7 @@ class ProbablityGeneratorImpl implements ProbabilityGenerator {
 
 		FileWriter fw = null;
 		try {
-			fw = new FileWriter(outputFile, true);
+			fw = new FileWriter(outputfile, true);
 			
 			batchArray.add(str);
 			batchArray.add("\n");
@@ -126,19 +130,25 @@ class ProbablityGeneratorImpl implements ProbabilityGenerator {
 
 public class Test {
 
-	// output file name
+/*	// output file name
 
-	public static String outputFile = "C:\\END1COB\\ECLIPSE_PHOTON\\PHOTON_WORKSPACE\\AmitSolution\\src\\com\\sandy\\outputprobab.txt";
+	String fileLocation=System.getProperty("user.dir");
 	
+	String outputfile2=fileLocation+"\\src\\com\\sandy\\outputprobab.txt";
+	
+//	public static String outputFile = "C:\\END1COB\\ECLIPSE_PHOTON\\PHOTON_WORKSPACE\\AmitSolution\\src\\com\\sandy\\outputprobab.txt";
+*/	
 
 	public static void main(String[] args) throws IOException {
 
+		
 		ProbablityGeneratorImpl gen = new ProbablityGeneratorImpl("probablities.txt");
 
 		ProbablityGeneratorImpl.k = 100;
 
 		String nextStr = null;
 
+		
 		for (int i = 0; i < 100; i++) {
 			nextStr = gen.getNextString();
 
