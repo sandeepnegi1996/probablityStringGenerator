@@ -1,0 +1,4 @@
+This is first String,0.56
+This is second string,0.30
+This is third String,0.1
+This is fourth String,0.04
