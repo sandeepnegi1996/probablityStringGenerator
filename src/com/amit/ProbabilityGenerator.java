@@ -1,4 +1,4 @@
-package com.sandy;
+package com.amit;
 
 public interface ProbabilityGenerator {
 	
