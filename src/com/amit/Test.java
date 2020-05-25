@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Scanner;
 
 class ProbablityGeneratorImpl implements ProbabilityGenerator {
 
@@ -34,6 +35,9 @@ class ProbablityGeneratorImpl implements ProbabilityGenerator {
 	// Function for reading file and Storing it in list
 
 	public void readFile() {
+		
+		System.out.println("====================================================================");
+		
 
 		try {
 			list = Files.readAllLines(Paths.get(fileLocation + "\\src\\com\\amit\\" + filename));
@@ -47,7 +51,7 @@ class ProbablityGeneratorImpl implements ProbabilityGenerator {
 	public String getNextString() {
 
 		// below function will read the file and store the result in the list
-		readFile();
+		//readFile();
 
 		List<Double> listofProbab = new ArrayList<Double>();
 		for (String x : list) {
@@ -122,13 +126,33 @@ public class Test {
 
 	public static void main(String[] args) throws IOException {
 
+		System.out.println("==========================================================");
+		System.out.println();
+		System.out.println("Sending the file name to the implementation Class ");
 		ProbablityGeneratorImpl gen = new ProbablityGeneratorImpl("probablities.txt");
+		
+		System.out.println("Reading the file and storing the string in one list... ");
+		gen.readFile();
+		
+		System.out.println("Reading finished and results stored in list ");
 
-		ProbablityGeneratorImpl.k = 100;
+		// K is the number of iteration this we can take from user
+		
+		System.out.println("Enter the number of iteration:  ");
+		Scanner scan=new Scanner(System.in);
+		int numberOfIteration=scan.nextInt();
+				
+		System.out.println("number of iteration is "+ numberOfIteration );		
+				
+		ProbablityGeneratorImpl.k = numberOfIteration;
 
+		
+		
 		String nextStr = null;
 
-		for (int i = 0; i < 100; i++) {
+		for (int i = 0; i < numberOfIteration; i++) {
+			
+			// Calling the function and getting the String 
 			nextStr = gen.getNextString();
 
 			if (nextStr == "") {
@@ -136,9 +160,12 @@ public class Test {
 
 			} else {
 
+				// Writing the output received in the outputFile
 				ProbablityGeneratorImpl.writeToOutputFile(nextStr);
 			}
 		}
+		
+		System.out.println(" !!! Finished Writing in the file outoutptobab ...");
 	}
 
 }
