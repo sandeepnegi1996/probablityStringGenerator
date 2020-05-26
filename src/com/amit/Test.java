@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 class ProbablityGeneratorImpl implements ProbabilityGenerator {
 
@@ -21,6 +22,8 @@ class ProbablityGeneratorImpl implements ProbabilityGenerator {
 	public static List<String> list = Collections.emptyList();
 
 	public static List<String> batchArray = new ArrayList<String>();
+	
+	public static List<Double> listofProbab = new ArrayList<Double>();
 
 	// output file name
 
@@ -34,47 +37,63 @@ class ProbablityGeneratorImpl implements ProbabilityGenerator {
 
 	// Function for reading file and Storing it in list
 
-	public void readFile() {
+	public void readFile(int k) {
 		
 		System.out.println("====================================================================");
 		
 
 		try {
 			list = Files.readAllLines(Paths.get(fileLocation + "\\src\\com\\amit\\" + filename));
+			
+			
 		} catch (IOException e) {
 
 			e.printStackTrace();
 		}
+		
+		//After reading sort the data and store the string in one List and key in another list
+		
+		for (String x : list) {
+			String arr[] = x.split(",");
+
+			// String
+			probablityString.add(arr[0]); 
+			//Probablity
+			listofProbab.add(Double.valueOf(arr[1]));
+		}
+		
+		System.out.println("printing list of strings and list of probablity");
+		
+		probablityString.stream().forEach(e->System.out.println(e));
+		
+		System.out.println("printing list of Probablity Keys in Double ");
+		
+		listofProbab.stream().forEach(e->System.out.println(e));
+		
+		
+		// ProbablityKeys after multiplied by the value
+		
+		
+		   probablityKeys =listofProbab.stream()
+    				.map(x -> x*k)
+    				.map(x->x.intValue())
+    				.collect(Collectors.toList());
+
+
+	// Below list if listofProbab with multiplied by k and store in int value
+	probablityKeys.stream().forEach(e->System.out.println(e));
+
+
 
 	}
 
 	public String getNextString() {
+	       
+		int pCurrentKey = probablityKeys.get(0);
 
-		// below function will read the file and store the result in the list
-		//readFile();
-
-		List<Double> listofProbab = new ArrayList<Double>();
-		for (String x : list) {
-			String arr[] = x.split(",");
-
-			probablityString.add(arr[0]);
-			listofProbab.add(Double.valueOf(arr[1]));
-		}
-
-		for (int i = 0; i < listofProbab.size(); i++) {
-
-			Double keyVal = listofProbab.get(i);
-			double key = (keyVal.doubleValue()) * k;
-			int newVal = (int) key;
-			Integer x = new Integer(newVal);
-			probablityKeys.add(x);
-
-		}
-
-		int multipliedKey = probablityKeys.get(0).intValue();
-
-		if (multipliedKey > 0) {
-			probablityKeys.set(0, --multipliedKey);
+		if (pCurrentKey > 0) {
+			
+			probablityKeys.set(0, --pCurrentKey);
 			return probablityString.get(0);
 		} else {
 			probablityKeys.remove(0);
@@ -131,18 +150,20 @@ public class Test {
 		System.out.println("Sending the file name to the implementation Class ");
 		ProbablityGeneratorImpl gen = new ProbablityGeneratorImpl("probablities.txt");
 		
-		System.out.println("Reading the file and storing the string in one list... ");
-		gen.readFile();
-		
-		System.out.println("Reading finished and results stored in list ");
-
-		// K is the number of iteration this we can take from user
-		
 		System.out.println("Enter the number of iteration:  ");
 		Scanner scan=new Scanner(System.in);
 		int numberOfIteration=scan.nextInt();
 				
 		System.out.println("number of iteration is "+ numberOfIteration );		
+		
+		System.out.println("Reading the file and storing the string in one list... ");
+		gen.readFile(numberOfIteration);
+		
+		System.out.println("Reading finished and results stored in list ");
+
+		// K is the number of iteration this we can take from user
+		
+		
 				
 		ProbablityGeneratorImpl.k = numberOfIteration;
 
